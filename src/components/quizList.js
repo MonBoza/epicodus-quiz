@@ -1,33 +1,59 @@
 import React from "react";
-import Quiz from "./quiz";
 import PropTypes from "prop-types";
+import Quiz from "./quiz"
 
 
 
 
 function QuizList(props) {
-  const { quizList, onQuizClick } = props;
-  console.log("quizData type:", typeof quizList);
-  console.log("quizData: Value", quizList);
 
-  return (
-    <React.Fragment>
-      {quizList.forEach((quiz) => (
-        <div key={quiz.id} >
-          whenQuizClicked={onQuizClick}
-          name={quiz.name}
-          id={quiz.id}
-          key={quiz.id}
-          </div>
-      ))}
-    </React.Fragment>
-  );
-
+ return(
+  <React.Fragment>
+    {props.quizList.map((quiz) => (
+      <Quiz
+        key={quiz.id}
+        id={quiz.id}
+        names={quiz.names}
+        question1={quiz.question1}
+        A1={quiz.A1}
+        B1={quiz.B1}
+        C1={quiz.C1}
+        D1={quiz.D1}
+        question2={quiz.question2}
+        A2={quiz.A2}
+        B2={quiz.B2}
+        C2={quiz.C2}
+        D2={quiz.D2}
+        question3={quiz.question3}
+        A3={quiz.A3}
+        B3={quiz.B3}
+        C3={quiz.C3}
+        D3={quiz.D3}
+        whenQuizClicked={props.onQuizSelection}
+      />
+    ))}
+  </React.Fragment>
+ );
 }
-
 QuizList.propTypes = {
   quizList: PropTypes.array,
-  onQuizClick: PropTypes.func
+  names: PropTypes.number,
+  id: PropTypes.number,
+  question1: PropTypes.string,
+  A1: PropTypes.string, 
+  B1: PropTypes.string,
+  C1: PropTypes.string,
+  D1: PropTypes.string,
+  question2: PropTypes.string,
+  A2: PropTypes.string,
+  B2: PropTypes.string,
+  C2: PropTypes.string,
+  D2: PropTypes.string,
+  question3: PropTypes.string,
+  A3: PropTypes.string,
+  B3: PropTypes.string,
+  C3: PropTypes.string, 
+  D3: PropTypes.string, 
+  whenQuizClicked: PropTypes.func
 };
-
 export default QuizList;

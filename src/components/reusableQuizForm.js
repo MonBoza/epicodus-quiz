@@ -2,31 +2,35 @@ import React from "react";
 import PropTypes from "prop-types";
 
 function ReusableForm(props) {
+
   return (
     <React.Fragment>
       <form onSubmit={props.formSubmissionHandler}>
+        <input type='text' name='names' placeholder='Quiz Name'></input>
+        <br />
         <textarea
           type='text'
           name='names'
           placeholder='Question' />
-          <br />
+        <br />
         <textarea
           name='A1'
           placeholder='First Answer' />
         <br />
-        <textarea 
+        <textarea
           name='B1'
-          placeholder='Second Answer' />  
+          placeholder='Second Answer' />
         <br />
-        <textarea     
+        <textarea
           name='C1'
           placeholder='Third Answer' />
         <br />
-        <textarea   
+        <textarea
           name='D1'
           placeholder='Fourth Answer' />
         <br />
         <button type='submit'>{props.buttonText}</button>
+        <br />
       </form>
     </React.Fragment>
   );

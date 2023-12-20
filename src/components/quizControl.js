@@ -1,10 +1,9 @@
 import React from "react";
 import { useState } from 'react';
-import Quiz from "./quiz";
-import Header from "./Header";
 import NewQuiz from "./newQuiz";
 import QuizList from "./quizList";
-
+import EditQuiz from "./editQuiz";
+import QuizDetail from "./quizDetail";
 const quizData = [
   {
     name: 'Harry Potter House Quiz',
@@ -50,69 +49,72 @@ const quizData = [
 function QuizControl() {
   const [quiz, setQuiz] = useState(quizData);
   const [formVisibleOnPage, setFormVisibleOnPage] = useState(true);
-  const [selectedQuiz, setSelectedQuiz] = useState(null); 
+  const [selectedQuiz, setSelectedQuiz] = useState(null);
   const [editedQuiz, setEditedQuiz] = useState(null);
+  const [error, setError] = useState(null);
 
 
-  
 
-const handleClick = () => {
-  if(selectedQuiz != null) {
-    setFormVisibleOnPage(false);
-    setSelectedQuiz(null);
-} else {
-  setFormVisibleOnPage(!formVisibleOnPage);
-}
-}
 
-  const handleNewQuiz = (newQuiz) => {
-    const newQuizList = quizData.concat(newQuiz);
-    setQuiz(newQuizList);
-    setFormVisibleOnPage(false);
-  }
-  const handleEditQuiz = (id) => {
-    const editedQuiz = quizData.filter(quiz => quiz.id === id)[0];
-    setQuiz(editedQuiz);
 
-  }
-  const handleShowQuizForm = () => {
-    setFormVisibleOnPage(true);
-  }
-  const handleShowQuizData = () => {
-    setFormVisibleOnPage(false);
-
+  const handleClick = () => {
+    if (selectedQuiz != null) {
+      setFormVisibleOnPage(false);
+      setSelectedQuiz(null);
+    } else {
+      setFormVisibleOnPage(!formVisibleOnPage);
+    }
   }
 
   const handleDeleteQuiz = (id) => {
     const newQuizList = quizData.filter(quiz => quiz.id !== id);
     setQuiz(newQuizList);
+    setSelectedQuiz(null);
+  }
+  const handleEditClick = () => {
+    setEditedQuiz(true);
+  }
+  const handleEditingQuizInList = (quizToEdit) => {
+    const handleNewQuiz = (newQuiz) => {
+      const newQuizList = quizData.concat(newQuiz);
+      setQuiz(newQuizList);
+      setFormVisibleOnPage(false);
+    }
+  }
+
+  const handleAddingNewQuizToList = (newQuiz) => {
+    const newQuizList = quiz.concat(newQuiz);
+    setQuiz(newQuizList);
+    setFormVisibleOnPage(false);
+  }
+  const handleChangingSelectedQuiz = (id) => {
+    const selectedQuiz = quizData.filter(quiz => quiz.id === id)[0];
+    setSelectedQuiz(selectedQuiz);
   }
 
 
-
-  // handle adding new quiz
-  // handle selecting a quiz.
-  // handleResponses function after quiz is submitted
-  // show Results function
-
-
-  // deleting 
   let currentlyVisibleState = null;
-
-  if (formVisibleOnPage) {
-    currentlyVisibleState = <NewQuiz showNewQuizForm={handleNewQuiz} />;
+  let buttonText = null;
+  
+  if (error) {
+    currentlyVisibleState = <p>There was an error: {error}</p>
+  } else if (editedQuiz) {
+    currentlyVisibleState = <EditQuiz quiz={selectedQuiz} onEditQuiz={handleEditingQuizInList} />
+    buttonText = "Return to Quiz List";
+  } else if (selectedQuiz != null) {
+    currentlyVisibleState = <QuizDetail quiz={selectedQuiz} onClickingDelete={handleDeleteQuiz} onClickingEdit={handleEditClick} />
+    buttonText = "Return to Quiz List";
+  } else if (formVisibleOnPage) {
+    currentlyVisibleState = <NewQuiz onNewQuizCreation={handleAddingNewQuizToList} />
   } else {
-    currentlyVisibleState = <Quiz quizList={quiz} />;
+    currentlyVisibleState = <QuizList quizList={quiz} onQuizSelection={handleChangingSelectedQuiz} />
+    buttonText = "Add Quiz";
   }
-
   return (
     <React.Fragment>
-     <Header onQuizClick={handleShowQuizData} />
-    {currentlyVisibleState}
-    {!formVisibleOnPage && <Quiz quizList={quiz} />}
-    <QuizList quizList={quiz} onQuizClick={handleClick} />
-    {/* <NewQuiz showNewQuizForm={handleNewQuiz} /> */}
-  </React.Fragment>
+      {currentlyVisibleState}
+      {error ? null :<button onClick={handleClick}>{buttonText}</button>}
+    </React.Fragment>
   );
 }
 
