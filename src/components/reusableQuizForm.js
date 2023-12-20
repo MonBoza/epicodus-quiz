@@ -6,7 +6,7 @@ function ReusableForm(props) {
   return (
     <React.Fragment>
       <form onSubmit={props.formSubmissionHandler}>
-        <input type='text' name='names' placeholder='Quiz Name'></input>
+        <input type='text' name='names' placeholder='Quiz Name' />
         <br />
         <textarea
           type='text'
@@ -42,3 +42,5 @@ ReusableForm.propTypes = {
 };
 
 export default ReusableForm;
+
+

@@ -4,6 +4,7 @@ import NewQuiz from "./newQuiz";
 import QuizList from "./quizList";
 import EditQuiz from "./editQuiz";
 import QuizDetail from "./quizDetail";
+import Header from "./Header";
 const quizData = [
   {
     name: 'Harry Potter House Quiz',
@@ -75,12 +76,12 @@ function QuizControl() {
     setEditedQuiz(true);
   }
   const handleEditingQuizInList = (quizToEdit) => {
-    const handleNewQuiz = (newQuiz) => {
-      const newQuizList = quizData.concat(newQuiz);
-      setQuiz(newQuizList);
-      setFormVisibleOnPage(false);
-    }
+    const editedNewQuiz = quizData.filter(quiz => quiz.id !== quizToEdit.id).concat(quizToEdit);
+    setQuiz(editedNewQuiz);
+    setEditedQuiz(false);
+    setSelectedQuiz(null);  
   }
+  
 
   const handleAddingNewQuizToList = (newQuiz) => {
     const newQuizList = quiz.concat(newQuiz);
@@ -91,7 +92,12 @@ function QuizControl() {
     const selectedQuiz = quizData.filter(quiz => quiz.id === id)[0];
     setSelectedQuiz(selectedQuiz);
   }
+  const handleDisplayQuizes = () => {
+    setQuiz(quizData);
+    
+    setFormVisibleOnPage(false);
 
+  }
 
   let currentlyVisibleState = null;
   let buttonText = null;
@@ -102,7 +108,7 @@ function QuizControl() {
     currentlyVisibleState = <EditQuiz quiz={selectedQuiz} onEditQuiz={handleEditingQuizInList} />
     buttonText = "Return to Quiz List";
   } else if (selectedQuiz != null) {
-    currentlyVisibleState = <QuizDetail quiz={selectedQuiz} onClickingDelete={handleDeleteQuiz} onClickingEdit={handleEditClick} />
+    currentlyVisibleState = <QuizDetail quizList={quiz} onWhenClicked={selectedQuiz} onClickingEdit={handleEditClick} onWhenClickingDelete={handleDeleteQuiz} />
     buttonText = "Return to Quiz List";
   } else if (formVisibleOnPage) {
     currentlyVisibleState = <NewQuiz onNewQuizCreation={handleAddingNewQuizToList} />
@@ -112,8 +118,9 @@ function QuizControl() {
   }
   return (
     <React.Fragment>
-      {currentlyVisibleState}
-      {error ? null :<button onClick={handleClick}>{buttonText}</button>}
+     
+     <Header onDisplayQuiz={handleDisplayQuizes} onNewQuiz={handleAddingNewQuizToList}/>
+     {currentlyVisibleState}
     </React.Fragment>
   );
 }

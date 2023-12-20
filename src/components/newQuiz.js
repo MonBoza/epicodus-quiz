@@ -8,7 +8,7 @@ function NewQuiz(props) {
   function handleNewQuiz(event) {
     event.preventDefault();
     props.onNewQuizCreation({
-      names: event.target.names.value,
+      name: event.target.name.value,
       question1: event.target.question1,
       A1: event.target.A1.value,
       B1: event.target.B1.value,
@@ -21,7 +21,7 @@ function NewQuiz(props) {
     <React.Fragment>
       <ReusableForm 
       formSubmissionHandler={handleNewQuiz}
-      buttonText='Add New Quiz' />
+      buttonText='New Quiz' />
     </React.Fragment>
   );
 }

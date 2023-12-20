@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Quiz from "./quiz"
+import Quiz from './Quiz.js'
 
 
 
@@ -13,7 +13,7 @@ function QuizList(props) {
       <Quiz
         key={quiz.id}
         id={quiz.id}
-        names={quiz.names}
+        name={quiz.name}
         question1={quiz.question1}
         A1={quiz.A1}
         B1={quiz.B1}
@@ -37,7 +37,7 @@ function QuizList(props) {
 }
 QuizList.propTypes = {
   quizList: PropTypes.array,
-  names: PropTypes.number,
+  name: PropTypes.string,
   id: PropTypes.number,
   question1: PropTypes.string,
   A1: PropTypes.string, 
@@ -56,4 +56,5 @@ QuizList.propTypes = {
   D3: PropTypes.string, 
   whenQuizClicked: PropTypes.func
 };
+
 export default QuizList;
